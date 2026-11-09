@@ -1,0 +1,1041 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <title>Sonu Mobile Harness — Complete Android RE & Replica Guide</title>
+  
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      color-scheme: dark;
+      --mx: 50vw;
+      --my: 20vh;
+      --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --smooth: cubic-bezier(0.16, 1, 0.3, 1);
+      --emerald: #10b981;
+      --emerald-bright: #34d399;
+      --cyan: #06b6d4;
+      --cyan-bright: #22d3ee;
+    }
+
+    body {
+      background: #000000;
+      color: #e5e7eb;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding-bottom: 160px;
+      position: relative;
+    }
+
+    /* Ambient Spotlight */
+    #aura {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(650px circle at var(--mx) var(--my), rgba(52, 211, 153, 0.08), transparent 75%);
+      transition: background 0.15s ease-out;
+    }
+
+    /* Liquid Glass Panels */
+    .glass-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%), rgba(20, 20, 26, 0.75);
+      backdrop-filter: blur(40px) saturate(200%);
+      -webkit-backdrop-filter: blur(40px) saturate(200%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 1.5rem;
+      box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.3),
+                  inset 0 -1px 1px 0 rgba(0, 0, 0, 0.8),
+                  0 20px 45px -10px rgba(0, 0, 0, 0.95);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s var(--spring);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(255, 255, 255, 0.22);
+    }
+
+    /* Tactile Liquid Pill Button */
+    .liquid-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.55rem 1.15rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #ffffff;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 100%), rgba(30, 30, 38, 0.85);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.45), 0 8px 20px rgba(0, 0, 0, 0.6);
+      cursor: pointer;
+      text-decoration: none;
+      user-select: none;
+      touch-action: manipulation;
+      transition: all 0.25s var(--spring);
+    }
+
+    .liquid-pill-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.35);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 0 12px 28px rgba(0, 0, 0, 0.7);
+    }
+
+    .liquid-pill-btn:active {
+      transform: scale(0.92);
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    .liquid-pill-btn-primary {
+      background: linear-gradient(180deg, #34d399 0%, #059669 100%);
+      color: #000000;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      font-weight: 700;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8), 0 8px 25px rgba(16, 185, 129, 0.35);
+    }
+
+    .liquid-pill-btn-primary:hover {
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.9), 0 12px 30px rgba(52, 211, 153, 0.5);
+    }
+
+    .liquid-pill-btn:disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    /* Fixed & Perfectly Centered Header */
+    .fixed-header {
+      position: fixed;
+      top: 0.75rem;
+      left: 0;
+      right: 0;
+      z-index: 900;
+      display: flex;
+      justify-content: center;
+      padding: 0 0.85rem;
+    }
+
+    .header-inner {
+      width: 100%;
+      max-width: 54rem;
+      height: 52px;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 1rem;
+    }
+
+    /* Fixed & Perfectly Centered iOS Dock */
+    .ios-dock-wrapper {
+      position: fixed;
+      bottom: 1.25rem;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 0.75rem;
+      pointer-events: auto;
+    }
+
+    .ios-dock {
+      position: relative;
+      background: rgba(26, 26, 32, 0.88);
+      backdrop-filter: blur(45px) saturate(220%);
+      -webkit-backdrop-filter: blur(45px) saturate(220%);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 9999px;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      box-shadow: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.4), 0 20px 50px rgba(0, 0, 0, 0.95);
+      width: auto;
+      max-width: calc(100vw - 1.5rem);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .ios-dock::-webkit-scrollbar { display: none; }
+
+    /* Sliding Liquid Glider Pill */
+    #dock-glider {
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: 4px;
+      width: 65px;
+      border-radius: 9999px;
+      background: linear-gradient(180deg, rgba(52, 211, 153, 0.35) 0%, rgba(16, 185, 129, 0.15) 100%), rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(52, 211, 153, 0.5);
+      box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.6), 0 4px 18px rgba(16, 185, 129, 0.4);
+      pointer-events: none;
+      z-index: 1;
+      transition: left 0.45s var(--spring), width 0.45s var(--spring), transform 0.2s ease;
+    }
+
+    /* Dialer Items */
+    .dock-tab {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #9ca3af;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      user-select: none;
+      touch-action: manipulation;
+      transition: color 0.25s ease, transform 0.15s var(--spring);
+      flex-shrink: 0;
+    }
+
+    .dock-tab:hover {
+      color: #e5e7eb;
+    }
+
+    .dock-tab:active {
+      transform: scale(0.9);
+      color: #ffffff;
+    }
+
+    .dock-tab.active {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    /* Content Stage Transition */
+    .stage-pane {
+      display: none;
+      flex-direction: column;
+      gap: 1.25rem;
+      animation: stageFade 0.35s var(--smooth) forwards;
+    }
+
+    .stage-pane.active {
+      display: flex;
+    }
+
+    @keyframes stageFade {
+      from { opacity: 0; transform: translateY(14px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .content-container {
+      max-width: 54rem;
+      margin: 0 auto;
+      padding: 4.8rem 1rem 1rem;
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    .progress-bar-container {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 0.75rem;
+    }
+
+    .progress-pill {
+      flex: 1;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    }
+
+    .progress-pill:hover {
+      transform: scaleY(1.5);
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .progress-pill.active {
+      background: var(--emerald-bright);
+      box-shadow: 0 0 8px var(--emerald-bright);
+    }
+
+    pre {
+      padding: 0.9rem;
+      overflow-x: auto;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.75rem;
+      line-height: 1.5;
+      background: rgba(10, 10, 14, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.75rem;
+      color: #34d399;
+    }
+
+    pre::-webkit-scrollbar { height: 4px; }
+    pre::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.25); border-radius: 9999px; }
+
+    /* Code Header with Copy Button */
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0.85rem;
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-top-left-radius: 0.75rem;
+      border-top-right-radius: 0.75rem;
+    }
+
+    .terminal-box {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.75rem;
+      overflow: hidden;
+      background: rgba(10, 10, 14, 0.95);
+      transition: border-color 0.2s ease;
+    }
+
+    .terminal-box:hover {
+      border-color: rgba(52, 211, 153, 0.4);
+    }
+
+    .terminal-box pre {
+      border: none;
+      border-radius: 0;
+    }
+
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 0.25rem 0.65rem;
+      border-radius: 0.4rem;
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-family: ui-monospace, monospace;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .copy-btn:active {
+      transform: scale(0.92);
+    }
+
+    .copy-btn.copied {
+      background: rgba(16, 185, 129, 0.25) !important;
+      border-color: rgba(52, 211, 153, 0.7) !important;
+      color: #34d399 !important;
+    }
+
+    /* Floating Island Toast Notification */
+    #toast {
+      position: fixed;
+      top: 4.8rem;
+      left: 50%;
+      transform: translate(-50%, -150%);
+      background: rgba(24, 24, 30, 0.95);
+      backdrop-filter: blur(35px);
+      -webkit-backdrop-filter: blur(35px);
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      border-radius: 9999px;
+      padding: 0.5rem 1.25rem;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 15px rgba(52, 211, 153, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #ffffff;
+      z-index: 2000;
+      pointer-events: none;
+      opacity: 0;
+      transition: transform 0.4s var(--spring), opacity 0.3s ease;
+    }
+
+    #toast.show {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+
+    /* Interactive Tab Control for Smali Diff */
+    .diff-toggle-btn {
+      padding: 0.25rem 0.65rem;
+      font-size: 0.7rem;
+      border-radius: 0.4rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      color: #9ca3af;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .diff-toggle-btn.active {
+      background: rgba(52, 211, 153, 0.2);
+      border-color: rgba(52, 211, 153, 0.6);
+      color: #34d399;
+      font-weight: 700;
+    }
+
+    /* Key hint badges */
+    .key-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 10px;
+      font-family: monospace;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #d1d5db;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Ambient Glow -->
+  <div id="aura" aria-hidden="true"></div>
+
+  <!-- Island Toast Alert -->
+  <div id="toast">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    <span id="toast-text">Action Completed</span>
+  </div>
+
+  <!-- Perfectly Centered Fixed Header -->
+  <header class="fixed-header">
+    <div class="glass-card header-inner">
+      <div style="display:flex; align-items:center; gap:0.55rem; cursor:pointer;" onclick="window.navStage(1)" title="Return to Stage 1">
+        <div style="width:30px; height:30px; border-radius:9px; background:rgba(255,255,255,0.12); display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,0.22); box-shadow:inset 0 1px 1px rgba(255,255,255,0.4);">
+          <!-- Mobile Harness Device Icon -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+        </div>
+        <div style="display:flex; align-items:center; gap:0.35rem;">
+          <span style="font-size:0.875rem; font-weight:800; letter-spacing:0.02em; color:#ffffff;">SONU REA</span>
+          <span style="font-size:9px; font-weight:900; background:#34d399; color:#000000; padding:1px 5px; border-radius:4px; font-family:monospace;">MOBILE HARNESS</span>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:0.4rem;">
+        <a href="https://github.com/techjarves/Mobile-Harness" target="_blank" rel="noopener noreferrer" class="liquid-pill-btn" style="padding:0.3rem 0.75rem; font-size:11px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          <span>Mobile-Harness Repo</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Viewport Container -->
+  <main class="content-container">
+
+    <!-- Hero Section -->
+    <section style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.85rem; padding-top:0.5rem;">
+      <div class="liquid-pill-btn" style="padding:0.35rem 0.95rem; font-size:0.75rem; border-color:rgba(52,211,153,0.3); pointer-events:none;">
+        <span style="width:6px; height:6px; border-radius:50%; background:#34d399; box-shadow:0 0 8px #34d399;"></span>
+        <span>Beginner-Friendly On-Device Android RE Engine</span>
+      </div>
+
+      <h1 style="font-size:2.25rem; font-weight:800; line-height:1.15; letter-spacing:-0.03em; color:#ffffff;">
+        Deconstruct & Rebuild Apps.<br>
+        <span style="background:linear-gradient(180deg, #ffffff 0%, #34d399 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Entirely on Android via Mobile Harness.</span>
+      </h1>
+
+      <p style="font-size:0.875rem; line-height:1.6; color:#9ca3af; max-width:34rem; margin:0 auto;">
+        A complete step-by-step guide for beginners to set up Termux, deploy <strong>Mobile Harness</strong> by techjarves, pull target APKs, extract source code, modify Smali logic, and reassemble apps without needing a PC.
+      </p>
+
+      <div style="display:flex; gap:0.5rem; align-items:center; margin-top:0.25rem;">
+        <button class="liquid-pill-btn liquid-pill-btn-primary" onclick="window.navStage(1)">
+          <span>🚀 Start Interactive Guide</span>
+        </button>
+        <span style="font-size:11px; color:#6b7280; display:flex; align-items:center; gap:4px;">
+          Use <span class="key-badge">←</span> <span class="key-badge">→</span> keys to navigate
+        </span>
+      </div>
+    </section>
+
+    <!-- Key Principles Grid -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(110px, 1fr)); gap:0.5rem;">
+      <div class="glass-card" style="padding:0.75rem; text-align:center; border-radius:1rem; cursor:pointer;" onclick="window.navStage(1)">
+        <div style="font-size:10px; font-family:monospace; color:#9ca3af; text-transform:uppercase;">HOST CORE</div>
+        <div style="font-size:0.8rem; font-weight:700; color:#ffffff; margin-top:2px;">Termux + Python3</div>
+      </div>
+      <div class="glass-card" style="padding:0.75rem; text-align:center; border-radius:1rem; cursor:pointer;" onclick="window.navStage(3)">
+        <div style="font-size:10px; font-family:monospace; color:#9ca3af; text-transform:uppercase;">HARNESS TOOL</div>
+        <div style="font-size:0.8rem; font-weight:700; color:#ffffff; margin-top:2px;">Mobile Harness</div>
+      </div>
+      <div class="glass-card" style="padding:0.75rem; text-align:center; border-radius:1rem; cursor:pointer;" onclick="window.navStage(3)">
+        <div style="font-size:10px; font-family:monospace; color:#9ca3af; text-transform:uppercase;">DECOMPILER</div>
+        <div style="font-size:0.8rem; font-weight:700; color:#ffffff; margin-top:2px;">JADX + Apktool</div>
+      </div>
+      <div class="glass-card" style="padding:0.75rem; text-align:center; border-radius:1rem; cursor:pointer;" onclick="window.navStage(7)">
+        <div style="font-size:10px; font-family:monospace; color:#9ca3af; text-transform:uppercase;">RE-SIGNING</div>
+        <div style="font-size:0.8rem; font-weight:700; color:#ffffff; margin-top:2px;">Auto APK Signer</div>
+      </div>
+    </div>
+
+    <!-- Active Stage Card Header -->
+    <div class="glass-card" style="padding:1rem 1.25rem; border-radius:1.25rem;">
+      <div class="progress-bar-container">
+        <div class="progress-pill active" id="prog-1" onclick="window.navStage(1)" title="Go to Stage 1"></div>
+        <div class="progress-pill" id="prog-2" onclick="window.navStage(2)" title="Go to Stage 2"></div>
+        <div class="progress-pill" id="prog-3" onclick="window.navStage(3)" title="Go to Stage 3"></div>
+        <div class="progress-pill" id="prog-4" onclick="window.navStage(4)" title="Go to Stage 4"></div>
+        <div class="progress-pill" id="prog-5" onclick="window.navStage(5)" title="Go to Stage 5"></div>
+        <div class="progress-pill" id="prog-6" onclick="window.navStage(6)" title="Go to Stage 6"></div>
+        <div class="progress-pill" id="prog-7" onclick="window.navStage(7)" title="Go to Stage 7"></div>
+      </div>
+
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-top:0.5rem;">
+        <div>
+          <h2 id="stage-title" style="font-size:1.15rem; font-weight:800; color:#ffffff;">Stage 1: Termux & Harness Setup</h2>
+          <p id="stage-desc" style="font-size:0.75rem; color:#9ca3af; margin-top:2px;">Install Termux binaries, setup storage permissions, and clone Mobile Harness.</p>
+        </div>
+        <span id="stage-counter" class="liquid-pill-btn" style="font-size:11px; padding:0.25rem 0.75rem; pointer-events:none; border-color:rgba(52,211,153,0.4); color:#34d399;">Stage 1 / 7</span>
+      </div>
+    </div>
+
+    <!-- ================= STAGE PANES ================= -->
+
+    <!-- STAGE 1: PROVISIONING -->
+    <div id="pane-1" class="stage-pane active">
+      <div class="glass-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.9rem;">
+        <h3 style="font-size:0.95rem; font-weight:700; color:#ffffff; display:flex; align-items:center; gap:0.45rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span>Step 1.1: Install Termux & Clone Mobile Harness</span>
+        </h3>
+        <p style="font-size:0.825rem; color:#9ca3af; line-height:1.6;">
+          Ensure you are using <strong>F-Droid Termux</strong>. Open Termux and run this one-line command to install Python, Java, git, reverse-engineering dependencies, and clone techjarves's Mobile Harness repository:
+        </p>
+
+        <div class="terminal-box">
+          <div class="terminal-header">
+            <span style="font-size:11px; font-family:monospace; color:#9ca3af;">harness-setup.sh</span>
+            <button class="copy-btn" onclick="window.copyText(this, 'pkg update && pkg upgrade -y && termux-setup-storage && pkg install git python openjdk-17 apktool jadx apksigner aapt -y && git clone https://github.com/techjarves/Mobile-Harness.git && cd Mobile-Harness && pip install -r requirements.txt')">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre># Update repositories and grant storage access
+pkg update && pkg upgrade -y
+termux-setup-storage
+
+# Install dependencies and clone Mobile Harness
+pkg install git python openjdk-17 apktool jadx apksigner aapt -y
+git clone https://github.com/techjarves/Mobile-Harness.git
+cd Mobile-Harness
+pip install -r requirements.txt</pre>
+        </div>
+        <p style="font-size:0.75rem; color:#9ca3af;">When the system pop-up asks for storage permissions, tap <strong style="color:#ffffff;">Allow</strong>.</p>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end;">
+        <button class="liquid-pill-btn liquid-pill-btn-primary" onclick="window.navStage(2)">
+          <span>Next: Target Acquisition (Stage 2) →</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- STAGE 2: EXTRACTION -->
+    <div id="pane-2" class="stage-pane">
+      <div class="glass-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.9rem;">
+        <h3 style="font-size:0.95rem; font-weight:700; color:#ffffff; display:flex; align-items:center; gap:0.45rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+          <span>Step 2.1: Extract Target APK via Package Manager</span>
+        </h3>
+        <p style="font-size:0.825rem; color:#9ca3af; line-height:1.6;">
+          You can inspect any installed app on your Android device without root permissions. Identify the package name and pull its base APK file into Mobile Harness:
+        </p>
+
+        <div class="terminal-box">
+          <div class="terminal-header">
+            <span style="font-size:11px; font-family:monospace; color:#9ca3af;">pull-target.sh</span>
+            <button class="copy-btn" onclick="window.copyText(this, 'pm list packages | grep target\npm path com.example.targetapp\ncp /data/app/~~.../base.apk ~/Mobile-Harness/target.apk')">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre># 1. Search for installed app package name
+pm list packages | grep target
+
+# 2. Find internal APK location path
+pm path com.example.targetapp
+
+# 3. Copy base APK into Mobile Harness folder
+cp /data/app/~~.../base.apk ~/Mobile-Harness/target.apk</pre>
+        </div>
+        <p style="font-size:0.75rem; color:#9ca3af;">
+          <em>Pro Tip:</em> You can also place any downloaded <code style="color:#ffffff; font-family:monospace;">.apk</code> file inside your device's <strong>Download</strong> folder and copy it from <code style="color:#ffffff; font-family:monospace;">~/storage/shared/Download/</code>.
+        </p>
+      </div>
+
+      <div style="display:flex; justify-content:space-between;">
+        <button class="liquid-pill-btn" onclick="window.navStage(1)">← Previous</button>
+        <button class="liquid-pill-btn liquid-pill-btn-primary" onclick="window.navStage(3)">Next: Mobile Harness Analysis (Stage 3) →</button>
+      </div>
+    </div>
+
+    <!-- STAGE 3: DECOMPILATION -->
+    <div id="pane-3" class="stage-pane">
+      <div class="glass-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.9rem;">
+        <h3 style="font-size:0.95rem; font-weight:700; color:#ffffff; display:flex; align-items:center; gap:0.45rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+          <span>Step 3.1: Launch Mobile Harness Decompilation Pipeline</span>
+        </h3>
+        <p style="font-size:0.825rem; color:#9ca3af; line-height:1.6;">
+          Execute Mobile Harness scripts to disassemble your target app into Smali code, readable Java files, XML layouts, and assets:
+        </p>
+
+        <div class="terminal-box">
+          <div class="terminal-header">
+            <span style="font-size:11px; font-family:monospace; color:#9ca3af;">run-harness.sh</span>
+            <button class="copy-btn" onclick="window.copyText(this, 'cd ~/Mobile-Harness\npython main.py --apk target.apk --decompile\njadx -j 2 --no-res -d workspace_java target.apk')">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre>cd ~/Mobile-Harness
+
+# 1. Run Mobile Harness CLI to unpack resources & Smali
+python main.py --apk target.apk --decompile
+
+# 2. Decompile Java source for beginner readability
+jadx -j 2 --no-res -d workspace_java target.apk</pre>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between;">
+        <button class="liquid-pill-btn" onclick="window.navStage(2)">← Previous</button>
+        <button class="liquid-pill-btn liquid-pill-btn-primary" onclick="window.navStage(4)">Next: Harness Reverse Blueprint (Stage 4) →</button>
+      </div>
+    </div>
+
+    <!-- STAGE 4: REPLICA-SKILL COMPLETE INTEGRATION -->
+    <div id="pane-4" class="stage-pane">
+      <div class="glass-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.9rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <h3 style="font-size:0.95rem; font-weight:700; color:#ffffff; display:flex; align-items:center; gap:0.45rem;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span>Step 4.1: Reverse Engineering & Rebuild Architecture Blueprint</span>
+          </h3>
+          <span class="liquid-pill-btn" style="padding:0.2rem 0.5rem; font-size:10px; color:#34d399;">Harness Automation</span>
+        </div>
+        <p style="font-size:0.825rem; color:#9ca3af; line-height:1.6;">
+          Utilize Mobile Harness automated routines to map out the application's underlying architecture, network endpoints, activity flows, and local storage:
+        </p>
+
+        <!-- Replica-Skill Sub-stages Grid -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:0.5rem;">
+          <div class="glass-card" style="padding:0.75rem; border-radius:0.75rem;">
+            <span style="font-size:11px; font-family:monospace; font-weight:700; color:#34d399;">1. Network Inspection</span>
+            <p style="font-size:11px; color:#9ca3af; margin-top:2px;">Scans AndroidManifest.xml and dex code for base URLs, REST contracts, and API keys.</p>
+          </div>
+          <div class="glass-card" style="padding:0.75rem; border-radius:0.75rem;">
+            <span style="font-size:11px; font-family:monospace; font-weight:700; color:#34d399;">2. Layout Structure</span>
+            <p style="font-size:11px; color:#9ca3af; margin-top:2px;">Maps res/layout XML elements to understand app navigation and UI view hierarchies.</p>
+          </div>
+          <div class="glass-card" style="padding:0.75rem; border-radius:0.75rem;">
+            <span style="font-size:11px; font-family:monospace; font-weight:700; color:#34d399;">3. Logic Identification</span>
+            <p style="font-size:11px; color:#9ca3af; margin-top:2px;">Pinpoints authentication routines, validation methods, and feature flags.</p>
+          </div>
+          <div class="glass-card" style="padding:0.75rem; border-radius:0.75rem;">
+            <span style="font-size:11px; font-family:monospace; font-weight:700; color:#34d399;">4. Clean Replica Spec</span>
+            <p style="font-size:11px; color:#9ca3af; margin-top:2px;">Generates clean structural specs for rebuilding the app natively or editing in-place.</p>
+          </div>
+        </div>
+
+        <div class="terminal-box">
+          <div class="terminal-header">
+            <span style="font-size:11px; font-family:monospace; color:#9ca3af;">harness-analyze.sh</span>
+            <button class="copy-btn" onclick="window.copyText(this, 'python main.py --apk target.apk --analyze-endpoints --export-blueprint')">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre style="color:#e5e7eb;"># Generate complete structural blueprint & network matrix
+python main.py --apk target.apk --analyze-endpoints --export-blueprint</pre>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between;">
+        <button class="liquid-pill-btn" onclick="window.navStage(3)">← Previous</button>
+        <button class="liquid-pill-btn liquid-pill-btn-primary" onclick="window.navStage(5)">Next: Modify Logic (Stage 5) →</button>
+      </div>
+    </div>
+
+    <!-- STAGE 5: EDITING SMALI -->
+    <div id="pane-5" class="stage-pane">
+      <div class="glass-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.9rem;">
+        <h3 style="font-size:0.95rem; font-weight:700; color:#ffffff; display:flex; align-items:center; gap:0.45rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+          <span>Step 5.1: Modify Smali Logic & Patch Resources</span>
+        </h3>
+        <p style="font-size:0.825rem; color:#9ca3af; line-height:1.6;">
+          Use <strong>Acode Editor</strong> on Android or Termux built-in <code style="color:#ffffff; font-family:monospace;">nano</code> editor to patch Smali files located inside <code style="color:#ffffff; font-family:monospace;">Mobile-Harness/workspace/smali/</code>:
+        </p>
+
+        <!-- Interactive Smali Patch Diff -->
+        <div class="glass-card" style="padding:0.9rem; border-radius:0.75rem; border-color:rgba(52,211,153,0.3);">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.75rem;">
+            <span style="font-size:12px; font-weight:700; color:#ffffff;">Smali Beginner Interactive Patch</span>
+            <div style="display:flex; gap:0.35rem;">
+              <button class="diff-toggle-btn active" id="btn-view-split" onclick="window.toggleDiffView('split')">Split View</button>
+              <button class="diff-toggle-btn" id="btn-view-before" onclick="window.toggleDiffView('before')">Before Only</button>
+              <button class="diff-toggle-btn" id="btn-view-after" onclick="window.toggleDiffView('after')">After Only</button>
+            </div>
+          </div>
+
+          <div id="diff-container" style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; transition:all 0.3s ease;">
+            <div id="diff-before-box" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:0.5rem; padding:0.6rem;">
+              <span style="font-size:10px; font-family:monospace; color:#f87171; font-weight:700;">// ORIGINAL SMALI (Returns False / 0x0):</span>
+              <pre style="color:#fca5a5; padding:0.25rem 0; background:transparent; border:none;">.method public checkActivation()Z
+    .registers 1
+    const/4 v0, 0x0
+    return v0
+.end method</pre>
+            </div>
+
+            <div id="diff-after-box" style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); border-radius:0.5rem; padding:0.6rem;">
+              <span style="font-size:10px; font-family:monospace; color:#34d399; font-weight:700;">// MODIFIED SMALI (Returns True / 0x1):</span>
+              <pre style="color:#6ee7b7; padding:0.25rem 0; background:transparent; border:none;">.method public checkActivation()Z
+    .registers 1
+    const/4 v0, 0x1    # Set register v0 to true (1)
+    return v0
+.end method</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between;">
+        <button class="liquid-pill-btn" onclick="window.navStage(4)">← Previous</button>
+        <button class="liquid-pill-btn liquid-pill-btn-primary" onclick="window.navStage(6)">Next: Rebuild (Stage 6) →</button>
+      </div>
+    </div>
+
+    <!-- STAGE 6: REBUILD & ZIPALIGN -->
+    <div id="pane-6" class="stage-pane">
+      <div class="glass-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.9rem;">
+        <h3 style="font-size:0.95rem; font-weight:700; color:#ffffff; display:flex; align-items:center; gap:0.45rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+          <span>Step 6.1: Reassemble & Align modified App</span>
+        </h3>
+        <p style="font-size:0.825rem; color:#9ca3af; line-height:1.6;">
+          Trigger the Mobile Harness rebuild command to recompile modified Smali code and resources back into an APK binary, followed by 4-byte memory alignment:
+        </p>
+
+        <div class="terminal-box">
+          <div class="terminal-header">
+            <span style="font-size:11px; font-family:monospace; color:#9ca3af;">harness-build.sh</span>
+            <button class="copy-btn" onclick="window.copyText(this, 'python main.py --build --use-aapt2\nzipalign -p -f -v 4 build/unsigned.apk build/aligned.apk')">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre># 1. Compile modified workspace via Mobile Harness
+python main.py --build --use-aapt2
+
+# 2. Perform 4-byte alignment (Required for Android 11+)
+zipalign -p -f -v 4 build/unsigned.apk build/aligned.apk</pre>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between;">
+        <button class="liquid-pill-btn" onclick="window.navStage(5)">← Previous</button>
+        <button class="liquid-pill-btn liquid-pill-btn-primary" onclick="window.navStage(7)">Next: Sign & Install (Stage 7) →</button>
+      </div>
+    </div>
+
+    <!-- STAGE 7: SIGN & INSTALL -->
+    <div id="pane-7" class="stage-pane">
+      <div class="glass-card" style="padding:1.25rem; display:flex; flex-direction:column; gap:0.9rem;">
+        <h3 style="font-size:0.95rem; font-weight:700; color:#ffffff; display:flex; align-items:center; gap:0.45rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><circle cx="7.5" cy="15.5" r="5.5"></circle><path d="m21 2-9.6 9.6"></path><path d="m15.5 7.5 3 3L22 7l-3-3"></path></svg>
+          <span>Step 7.1: Sign & Launch Modified Application</span>
+        </h3>
+        <p style="font-size:0.825rem; color:#9ca3af; line-height:1.6;">
+          Sign your rebuilt APK using APK Signature Scheme V2/V3 and trigger instant Android package installation right inside Termux:
+        </p>
+
+        <div class="terminal-box">
+          <div class="terminal-header">
+            <span style="font-size:11px; font-family:monospace; color:#9ca3af;">sign-and-install.sh</span>
+            <button class="copy-btn" onclick="window.copyText(this, 'keytool -genkey -v -keystore harness.jks -alias harness_key -keyalg RSA -keysize 2048 -validity 10000 -storepass password123 -keypass password123 -dname &quot;CN=MobileHarness, OU=Dev, O=Sonu, C=IN&quot;\napksigner sign --ks harness.jks --ks-pass pass:password123 --out ready_to_install.apk build/aligned.apk\ntermux-open ready_to_install.apk')">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre># 1. Create a local signing keystore (one-time setup)
+keytool -genkey -v -keystore harness.jks -alias harness_key -keyalg RSA -keysize 2048 -validity 10000 -storepass password123 -keypass password123 -dname "CN=MobileHarness, OU=Dev, O=Sonu, C=IN"
+
+# 2. Sign your aligned APK
+apksigner sign --ks harness.jks --ks-pass pass:password123 --out ready_to_install.apk build/aligned.apk
+
+# 3. Launch native Android installer
+termux-open ready_to_install.apk</pre>
+        </div>
+
+        <div style="background:rgba(234, 179, 8, 0.1); border:1px solid rgba(234, 179, 8, 0.3); border-radius:8px; padding:8px; color:#fde047; font-size:11px; margin-top:0.25rem;">
+          ⚠️ <strong>Note for Beginners:</strong> Remember to uninstall the original application from your device first so Android allows installing the newly signed build.
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between;">
+        <button class="liquid-pill-btn" onclick="window.navStage(6)">← Previous</button>
+        <button class="liquid-pill-btn liquid-pill-btn-primary" onclick="window.navStage(1)">Finished! Restart ↺</button>
+      </div>
+    </div>
+
+    <!-- Troubleshooting Matrix -->
+    <section style="display:flex; flex-direction:column; gap:0.75rem; margin-top:0.5rem;">
+      <h3 style="font-size:0.95rem; font-weight:800; color:#ffffff;">Beginner Troubleshooting Matrix</h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:0.5rem;">
+        <div class="glass-card" style="padding:0.85rem; border-radius:0.75rem; cursor:pointer;" onclick="window.showToast('Tip: Use AntiSplit-M tool to combine APKs')">
+          <span style="font-size:11px; font-family:monospace; font-weight:700; color:#ffffff;">Split APKs / App Bundles (.apks)</span>
+          <p style="font-size:11px; color:#9ca3af; margin-top:2px;">
+            If the app uses split APKs, pass all split files to Apktool or use AntiSplit-M to merge into a single APK first.
+          </p>
+        </div>
+        <div class="glass-card" style="padding:0.85rem; border-radius:0.75rem; cursor:pointer;" onclick="window.showToast('Tip: Reduce threads with -j 1 parameter')">
+          <span style="font-size:11px; font-family:monospace; font-weight:700; color:#ffffff;">Termux Out of Memory (OOM)</span>
+          <p style="font-size:11px; color:#9ca3af; margin-top:2px;">
+            Limit JADX memory and thread count:<br>
+            <code style="color:#ffffff; font-family:monospace;">jadx -j 1 --no-res -d output/ target.apk</code>
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- iOS Dialer Liquid Glass Dock (Centered & Never Cropped) -->
+  <div class="ios-dock-wrapper">
+    <nav class="ios-dock" id="stage-dock">
+      <!-- Animated Pill Glider -->
+      <div id="dock-glider"></div>
+
+      <button class="dock-tab active" data-stage="1" onclick="window.navStage(1, this)">
+        <span>1. Setup</span>
+      </button>
+      <button class="dock-tab" data-stage="2" onclick="window.navStage(2, this)">
+        <span>2. Pull APK</span>
+      </button>
+      <button class="dock-tab" data-stage="3" onclick="window.navStage(3, this)">
+        <span>3. Decompile</span>
+      </button>
+      <button class="dock-tab" data-stage="4" onclick="window.navStage(4, this)">
+        <span>4. Blueprint</span>
+      </button>
+      <button class="dock-tab" data-stage="5" onclick="window.navStage(5, this)">
+        <span>5. Edit Smali</span>
+      </button>
+      <button class="dock-tab" data-stage="6" onclick="window.navStage(6, this)">
+        <span>6. Rebuild</span>
+      </button>
+      <button class="dock-tab" data-stage="7" onclick="window.navStage(7, this)">
+        <span>7. Install</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- JavaScript Engine -->
+  <script>
+    (function() {
+      var stageData = [
+        ['Stage 1: Termux & Mobile Harness Setup', 'Bootstrap Python, Java tools, and clone techjarves/Mobile-Harness.'],
+        ['Stage 2: Package Acquisition & Pulling', 'Locate and copy target APK base without root requirements.'],
+        ['Stage 3: Decompilation & Source View', 'Decompile resources with Harness and source code with JADX.'],
+        ['Stage 4: Reverse Architecture Blueprint', 'Analyze network endpoints, layouts, and feature structures.'],
+        ['Stage 5: Modify Logic & Smali Bytecode', 'Edit Smali logic routines using Acode or nano editor.'],
+        ['Stage 6: Recompile & 4-Byte Zipalign', 'Reassemble app binary and enforce 4-byte memory alignment.'],
+        ['Stage 7: V2/V3 Keystore Sign & Launch', 'Sign APK with custom keystore and launch native installer.']
+      ];
+
+      var current = 1;
+      var total = stageData.length;
+      var glider = document.getElementById('dock-glider');
+      var dock = document.getElementById('stage-dock');
+      var toast = document.getElementById('toast');
+      var toastTimer = null;
+
+      function haptic() {
+        try {
+          if (navigator && navigator.vibrate) navigator.vibrate(14);
+        } catch(e) {}
+      }
+
+      window.showToast = function(msg) {
+        if (!toast) return;
+        document.getElementById('toast-text').innerText = msg;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function() {
+          toast.classList.remove('show');
+        }, 2200);
+      };
+
+      function updateGlider(btn) {
+        if (!glider || !btn) return;
+        glider.style.left = btn.offsetLeft + 'px';
+        glider.style.width = btn.offsetWidth + 'px';
+      }
+
+      window.copyText = function(btn, text) {
+        haptic();
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text);
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        }
+
+        var labelSpan = btn.querySelector('span');
+        var origText = labelSpan ? labelSpan.innerText : btn.innerText;
+        btn.classList.add('copied');
+        if (labelSpan) labelSpan.innerText = 'Copied!';
+
+        setTimeout(function() {
+          btn.classList.remove('copied');
+          if (labelSpan) labelSpan.innerText = origText;
+        }, 1800);
+
+        window.showToast('Copied script to clipboard!');
+      };
+
+      window.toggleDiffView = function(viewMode) {
+        haptic();
+        var container = document.getElementById('diff-container');
+        var beforeBox = document.getElementById('diff-before-box');
+        var afterBox = document.getElementById('diff-after-box');
+        
+        document.getElementById('btn-view-split').classList.remove('active');
+        document.getElementById('btn-view-before').classList.remove('active');
+        document.getElementById('btn-view-after').classList.remove('active');
+
+        if (viewMode === 'split') {
+          container.style.gridTemplateColumns = '1fr 1fr';
+          beforeBox.style.display = 'block';
+          afterBox.style.display = 'block';
+          document.getElementById('btn-view-split').classList.add('active');
+        } else if (viewMode === 'before') {
+          container.style.gridTemplateColumns = '1fr';
+          beforeBox.style.display = 'block';
+          afterBox.style.display = 'none';
+          document.getElementById('btn-view-before').classList.add('active');
+        } else if (viewMode === 'after') {
+          container.style.gridTemplateColumns = '1fr';
+          beforeBox.style.display = 'none';
+          afterBox.style.display = 'block';
+          document.getElementById('btn-view-after').classList.add('active');
+        }
+      };
+
+      window.navStage = function(stageNum, clickedBtn) {
+        haptic();
+        current = Math.max(1, Math.min(total, stageNum));
+
+        // 1. Update Panes & Progress Pills
+        for (var i = 1; i <= total; i++) {
+          var pane = document.getElementById('pane-' + i);
+          var prog = document.getElementById('prog-' + i);
+          if (pane) {
+            pane.classList.toggle('active', i === current);
+          }
+          if (prog) {
+            prog.classList.toggle('active', i <= current);
+          }
+        }
+
+        // 2. Update Header Info
+        document.getElementById('stage-title').textContent = stageData[current - 1][0];
+        document.getElementById('stage-desc').textContent = stageData[current - 1][1];
+        document.getElementById('stage-counter').textContent = 'Stage ' + current + ' / ' + total;
+
+        // 3. Update Dock Glider and Active Tab
+        var tabs = document.querySelectorAll('.dock-tab');
+        var targetTab = clickedBtn || tabs[current - 1];
+
+        tabs.forEach(function(t) { t.classList.remove('active'); });
+        if (targetTab) {
+          targetTab.classList.add('active');
+          updateGlider(targetTab);
+
+          // Center tab inside dock smoothly
+          if (dock) {
+            var scrollX = targetTab.offsetLeft - (dock.clientWidth / 2) + (targetTab.clientWidth / 2);
+            dock.scrollTo({ left: scrollX, behavior: 'smooth' });
+          }
+        }
+
+        // 4. Scroll smoothly to active stage title
+        var titleElem = document.getElementById('stage-title');
+        if (titleElem && (clickedBtn || stageNum > 1)) {
+          titleElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      };
+
+      // Keyboard Navigation (Left & Right Arrow Keys)
+      window.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === 'Right') {
+          if (current < total) window.navStage(current + 1);
+        } else if (e.key === 'ArrowLeft' || e.key === 'Left') {
+          if (current > 1) window.navStage(current - 1);
+        }
+      });
+
+      // Mouse Spotlight Follow
+      window.addEventListener('mousemove', function(e) {
+        document.documentElement.style.setProperty('--mx', e.clientX + 'px');
+        document.documentElement.style.setProperty('--my', e.clientY + 'px');
+      }, { passive: true });
+
+      // Window Resize Listener for Glider
+      window.addEventListener('resize', function() {
+        var activeTab = document.querySelector('.dock-tab.active');
+        if (activeTab) updateGlider(activeTab);
+      });
+
+      // Init positioning
+      window.addEventListener('DOMContentLoaded', function() {
+        window.navStage(1);
+      });
+      window.addEventListener('load', function() {
+        var activeTab = document.querySelector('.dock-tab.active');
+        if (activeTab) updateGlider(activeTab);
+      });
+      setTimeout(function() {
+        var activeTab = document.querySelector('.dock-tab.active');
+        if (activeTab) updateGlider(activeTab);
+      }, 150);
+    })();
+  </script>
+</body>
+</html>
