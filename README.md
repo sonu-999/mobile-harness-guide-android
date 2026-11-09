@@ -1,36 +1,32 @@
 # Mobile Harness Guide Android
 
 <p align="center">
-  <img src="assets/gh-banner.svg" alt="Mobile Harness Guide Android banner" width="100%" />
+  <a href="https://github.com/sonu-999/mobile-harness-guide-android/stargazers"><img src="https://img.shields.io/github/stars/sonu-999/mobile-harness-guide-android?style=for-the-badge" alt="GitHub stars" /></a>
+  <a href="https://github.com/sonu-999/mobile-harness-guide-android/forks"><img src="https://img.shields.io/github/forks/sonu-999/mobile-harness-guide-android?style=for-the-badge" alt="GitHub forks" /></a>
+  <a href="https://github.com/sonu-999/mobile-harness-guide-android/issues"><img src="https://img.shields.io/github/issues/sonu-999/mobile-harness-guide-android?style=for-the-badge" alt="GitHub issues" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge" alt="MIT License" /></a>
+  <a href="#quick-start"><img src="https://img.shields.io/badge/Platform-Android-3DDC84?style=for-the-badge" alt="Android" /></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/sonu-999/mobile-harness-guide-android/stargazers"><img src="https://img.shields.io/github/stars/sonu-999/mobile-harness-guide-android?style=for-the-badge" alt="GitHub stars" /></a>
-  <a href="https://github.com/sonu-999/mobile-harness-guide-android/network/members"><img src="https://img.shields.io/github/forks/sonu-999/mobile-harness-guide-android?style=for-the-badge" alt="GitHub forks" /></a>
-  <a href="https://github.com/sonu-999/mobile-harness-guide-android/issues"><img src="https://img.shields.io/github/issues/sonu-999/mobile-harness-guide-android?style=for-the-badge" alt="GitHub issues" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge" alt="License MIT" /></a>
-  <a href="#"><img src="https://img.shields.io/badge/Platform-Android-3DDC84?style=for-the-badge" alt="Android" /></a>
-  <a href="#"><img src="https://img.shields.io/badge/Stack-HTML%20%2B%20WebView-ffffff?style=for-the-badge" alt="HTML + WebView" /></a>
+  <img src="assets/gh-banner.svg" alt="Mobile Harness Guide Android banner" width="100%" />
 </p>
 
-A polished Android WebView app and reference guide for learning authorized mobile app analysis, reverse engineering workflows, and Android security research in a structured, beginner-friendly format.
+A polished Android WebView learning app and guide for beginners exploring authorized Android app analysis, reverse-engineering workflows, APK decompilation, and safe mobile security practice.
 
-This project packages the "Mobile Harness" learning journey into a clean mobile-first experience designed for developer education, ethical testing, and safe exploration of Android apps you own or are explicitly authorized to assess.
+This project packages the Mobile Harness learning journey into a clean mobile-first experience, making complex Android workflows easier to understand, easier to follow, and easier to share.
 
-## Why this project exists
+## Why this project stands out
 
-Mobile app analysis can be intimidating for beginners. This project aims to simplify the first steps of Android reverse engineering by combining:
+- beginner-friendly Android reverse engineering education
+- step-by-step workflow from setup to APK analysis
+- guided lessons for Termux, Mobile Harness, JADX, decompilation, and rebuild flows
+- focused on ethical, authorized testing of apps you own or are allowed to assess
+- built as a realistic Android app shell with a polished dark UI
 
-- a clean Android WebView interface
-- a step-by-step research workflow
-- beginner-focused explanations around APK analysis, Smali, decompilation, and app repackaging
-- a structured path from setup to testing in a safe, ethical environment
+## SEO and discovery keywords
 
-It is designed for education, experimentation, and authorized security review of applications you own or have explicit permission to test.
-
-## Keywords and SEO focus
-
-This repository is positioned around the following search-friendly themes:
+This repository is positioned around keywords such as:
 
 - Android reverse engineering guide
 - Mobile Harness tutorial
@@ -39,33 +35,22 @@ This repository is positioned around the following search-friendly themes:
 - Smali patching guide
 - Termux Android reverse engineering
 - APK decompilation tutorial
-- authorized mobile app testing
 - Android app analysis workflow
-- WebView Android training app
+- authorized mobile app testing
+- Android WebView learning project
 
 ## Features
 
-- Mobile-first dark UI with a glassmorphism-inspired design
-- Step-based learning flow for Android app inspection and reverse engineering
-- Built around Mobile Harness, JADX, apktool, and related Android tooling
-- Clean presentation of APK extraction, decompilation, and rebuild concepts
-- Copy-ready command snippets for setup and analysis
-- Beginner-friendly educational structure
-- A single APK-style app shell that hosts the guide locally
-
-## Project overview
-
-This repository contains a lightweight Android app that hosts a local HTML guide in a WebView. The visual design and flow are intentionally organized to make complex Android reverse-engineering concepts easier to follow.
-
-## Screenshot
-
-<p align="center">
-  <img src="1794234703701.png" alt="Mobile Harness Guide Android screenshot" width="720" />
-</p>
+- dark glassmorphism-inspired UI
+- stage-based walkthrough for key Android analysis steps
+- copy-ready shell commands for setup and testing workflows
+- clean local content host via Android WebView
+- beginner-oriented explanation of reverse engineering concepts
+- structured educational flow for safer mobile research practice
 
 ## Quick start
 
-### 1) Clone the repository
+### 1) Clone
 
 ```bash
 git clone https://github.com/sonu-999/mobile-harness-guide-android.git
@@ -78,77 +63,79 @@ cd mobile-harness-guide-android
 ./gradlew assembleDebug
 ```
 
-The generated APK is usually written to:
+### 3) Open the generated APK
+
+The debug APK is usually generated here:
 
 ```text
 app/build/outputs/apk/debug/app-debug.apk
 ```
 
-### 3) Open the guide locally
-
-The app loads a local HTML guide, and the main experience is centered around `MH.html` and the Android WebView host.
-
-## Repository structure
+## Project structure
 
 ```text
 .
 ├── MH.html                  # Main interactive guide content
-├── README.md                # Project documentation and landing page
+├── README.md                # Project overview and landing page
 ├── LICENSE                  # MIT license
+├── index.html               # Lightweight landing-page entry for SEO/front-end polish
 ├── assets/
-│   └── gh-banner.svg       # GitHub social preview banner
+│   └── gh-banner.svg        # GitHub banner / social preview asset
 ├── docs/
-│   ├── CONTRIBUTING.md      # Contribution guide
-│   └── SECURITY.md          # Security and responsible use guidance
+│   ├── CONTRIBUTING.md      # Contribution guidelines
+│   ├── INSTALL.md          # Setup instructions
+│   └── SECURITY.md          # Responsible use and disclosure guidance
 ├── app/
 │   └── src/
 │       └── main/
 │           ├── res/
 │           └── ...
-├── 1794234703701.png        # Repository preview image
+├── 1794234703701.png        # Repository screenshot preview
 ├── SONU REA MOBILE HARNESS_1.apk
-└── .gitignore
+├── .gitignore
+└── .github/
 ```
 
 ## Learning flow included
 
-The guide covers a beginner-friendly Android workflow such as:
+The guide walks through:
 
-1. Installing and preparing Termux
-2. Pulling an APK from a target app
-3. Decompiling an app with Android tooling
-4. Reviewing Smali and resource structure
-5. Making controlled changes
-6. Rebuilding and signing the APK
-7. Installing the modified app for authorized testing
+1. preparing Termux and Android dependencies
+2. extracting a target APK
+3. decompiling and inspecting app structure
+4. reviewing Smali and resources
+5. patching logic safely and responsibly
+6. rebuilding and signing an APK
+7. installing for authorized testing in a controlled environment
 
 ## Responsible use
 
 This project is intended for:
 
 - education
-- authorized testing of apps you own
-- explicit security review of applications you are permitted to assess
-- learning Android reverse-engineering fundamentals in a controlled environment
+- authorized testing of apps you own or are given permission to assess
+- Android development and reverse-engineering study
+- safe exploration of Android app structures in controlled settings
 
-It must not be used for unauthorized access, data theft, malware distribution, or any unlawful activity.
+It must not be used for unauthorized access, malware creation, credential theft, or unlawful activity.
 
 ## Contributing
 
-Contributions are welcome. Please read the contribution guide before opening issues or pull requests.
+Contributions are welcome. Please see the contribution guide before submitting a PR.
 
 - [Contributing guide](docs/CONTRIBUTING.md)
+- [Install guide](docs/INSTALL.md)
 - [Security policy](docs/SECURITY.md)
 
 ## Roadmap
 
 Planned improvements include:
 
-- stronger visual branding and mobile-first UX refinements
-- better asset organization and documentation structure
-- improved app metadata and release packaging
-- more beginner tutorials and walkthrough content
-- additional examples and QA notes for contributors
+- clearer onboarding and install instructions
+- more visual polish and UI refinements
+- improved accessibility and mobile compatibility
+- better repository branding and release packaging
+- stronger beginner-focused educational sections
 
 ## License
 
@@ -160,54 +147,13 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Star this repository
 
-If this project is useful for your learning flow, reverse-engineering studies, or Android security research, please consider giving it a star.
+If this project helps you learn Android reverse engineering, APK analysis, or mobile security research in a safer and more structured way, a star helps support the project and visibility.
 
 ---
 
-Built to make Android reverse-engineering education more approachable, more readable, and easier to discover on GitHub.
+Built to make Android reverse-engineering learning more approachable, more readable, and easier to discover on GitHub.
 
-"A polished mobile guide for authorized Android app analysis and reverse-engineering learning."
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+"A cleaner, more discoverable guide for authorized Android app analysis and reverse-engineering learning."
 
 
 
