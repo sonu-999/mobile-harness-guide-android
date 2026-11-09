@@ -1,0 +1,55 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#050816"/>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <g opacity="0.5">
+    <circle cx="260" cy="160" r="220" fill="#10B981" fill-opacity="0.12"/>
+    <circle cx="1320" cy="720" r="260" fill="#22D3EE" fill-opacity="0.12"/>
+    <circle cx="1160" cy="200" r="180" fill="#34D399" fill-opacity="0.08"/>
+  </g>
+
+  <rect x="120" y="120" width="1360" height="660" rx="40" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.18)"/>
+
+  <g>
+    <rect x="210" y="210" width="150" height="150" rx="36" fill="#0F172A" stroke="#34D399" stroke-width="2"/>
+    <path d="M258 258H302V298H258V258ZM252 308H308V332H252V308ZM242 332H318V350H242V332Z" fill="#ECFDF5"/>
+    <path d="M270 250L286 266L306 246" stroke="#34D399" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g>
+    <text x="420" y="290" fill="#F8FAFC" font-size="84" font-weight="800" font-family="Segoe UI, Arial, sans-serif">Mobile Harness</text>
+    <text x="420" y="370" fill="#A7F3D0" font-size="44" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Guide Android</text>
+    <text x="420" y="430" fill="#CBD5E1" font-size="26" font-family="Segoe UI, Arial, sans-serif">Android WebView app for learning authorized app analysis, APK workflows, and reverse-engineering basics.</text>
+  </g>
+
+  <g>
+    <rect x="220" y="520" width="280" height="140" rx="22" fill="#0B1220" stroke="rgba(255,255,255,0.12)"/>
+    <text x="250" y="570" fill="#B7FCE8" font-size="22" font-weight="700" font-family="Segoe UI, Arial, sans-serif">APK</text>
+    <text x="250" y="610" fill="#E2E8F0" font-size="28" font-weight="700" font-family="Segoe UI, Arial, sans-serif">Analysis</text>
+  </g>
+
+  <g>
+    <rect x="540" y="520" width="280" height="140" rx="22" fill="#0B1220" stroke="rgba(255,255,255,0.12)"/>
+    <text x="570" y="570" fill="#B7FCE8" font-size="22" font-weight="700" font-family="Segoe UI, Arial, sans-serif">TERMUX</text>
+    <text x="570" y="610" fill="#E2E8F0" font-size="28" font-weight="700" font-family="Segoe UI, Arial, sans-serif">Workflow</text>
+  </g>
+
+  <g>
+    <rect x="860" y="520" width="280" height="140" rx="22" fill="#0B1220" stroke="rgba(255,255,255,0.12)"/>
+    <text x="890" y="570" fill="#B7FCE8" font-size="22" font-weight="700" font-family="Segoe UI, Arial, sans-serif">JADX</text>
+    <text x="890" y="610" fill="#E2E8F0" font-size="28" font-weight="700" font-family="Segoe UI, Arial, sans-serif">Decompilation</text>
+  </g>
+
+  <g>
+    <rect x="1180" y="520" width="240" height="140" rx="22" fill="#0B1220" stroke="rgba(255,255,255,0.12)"/>
+    <text x="1210" y="570" fill="#B7FCE8" font-size="22" font-weight="700" font-family="Segoe UI, Arial, sans-serif">SECURITY</text>
+    <text x="1210" y="610" fill="#E2E8F0" font-size="28" font-weight="700" font-family="Segoe UI, Arial, sans-serif">Ethics</text>
+  </g>
+
+  <defs>
+    <linearGradient id="bg" x1="90" y1="40" x2="1470" y2="870" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07111F"/>
+      <stop offset="0.5" stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#0A0F1E"/>
+    </linearGradient>
+  </defs>
+</svg>
